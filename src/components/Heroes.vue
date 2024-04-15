@@ -22,6 +22,7 @@ export default defineComponent({
       searchQuery: "",
       currentPage: 1,
       heroesPerPage: 8,
+      isLoading: true,
     };
   },
   // Fetch Data
@@ -35,6 +36,7 @@ export default defineComponent({
         },
       });
       this.heroes = await response.json();
+      this.isLoading = false;
     } catch (error) {
       console.error(error);
     }
@@ -68,7 +70,7 @@ export default defineComponent({
     <h1>Dota 2 Heroes</h1>
     <input v-model="searchQuery" placeholder="Search by name or name_loc" />
 
-    <ul>
+    <ul v-if="!isLoading">
       <div class="grid grid-cols-4 gap-4 my-4">
         <li v-for="hero in paginatedHeroes" :key="hero.id">
           <div>
@@ -79,6 +81,8 @@ export default defineComponent({
       </div>
     </ul>
 
+    <div v-else>Loading...</div>
+
     <div>
       <button @click="paginate(1)" :disabled="currentPage === 1">First</button>
       <button @click="paginate(currentPage - 1)" :disabled="currentPage === 1">Previous</button>
@@ -86,6 +90,5 @@ export default defineComponent({
       <button @click="paginate(currentPage + 1)" :disabled="currentPage === Math.ceil(filterHeroes().length / heroesPerPage)">Next</button>
       <button @click="paginate(Math.ceil(filterHeroes().length / heroesPerPage))" :disabled="currentPage === Math.ceil(filterHeroes().length / heroesPerPage)">Last</button>
     </div>
-
   </div>
 </template>
