@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+// Declare Data Types
 export interface Hero {
   id: number;
   name: string;
@@ -12,6 +13,7 @@ export interface Hero {
   attribute_img: string;
 }
 
+// Define Component
 export default defineComponent({
   name: "Heroes",
   data() {
@@ -19,9 +21,10 @@ export default defineComponent({
       heroes: [] as Hero[],
       searchQuery: "",
       currentPage: 1,
-      heroesPerPage: 10,
+      heroesPerPage: 8,
     };
   },
+  // Fetch Data
   async created() {
     try {
       const response = await fetch("https://dota2-heroes.p.rapidapi.com/heroes/english", {
@@ -36,12 +39,14 @@ export default defineComponent({
       console.error(error);
     }
   },
+  // Pagination
   computed: {
     paginatedHeroes() {
       const startIndex = (this.currentPage - 1) * this.heroesPerPage;
       return this.filterHeroes().slice(startIndex, startIndex + this.heroesPerPage);
     },
   },
+  // Search
   methods: {
     filterHeroes() {
       return this.heroes.filter((hero) => {
@@ -62,16 +67,18 @@ export default defineComponent({
   <div>
     <h1>Dota 2 Heroes</h1>
     <input v-model="searchQuery" placeholder="Search by name or name_loc" />
+
     <ul>
-      <div class="grid grid-cols-4 gap-4">
+      <div class="grid grid-cols-4 gap-4 my-4">
         <li v-for="hero in paginatedHeroes" :key="hero.id">
           <div>
-            <img :src="hero.image" :alt="hero.name_loc" class="w-1/2 h-1/2 align-center mx-auto" />
+            <img :src="hero.image" :alt="hero.name_loc" class="w-64 h-50 align-center mx-auto" />
             <h2>{{ hero.name_loc }}</h2>
           </div>
         </li>
       </div>
     </ul>
+
     <div>
       <button @click="paginate(1)" :disabled="currentPage === 1">First</button>
       <button @click="paginate(currentPage - 1)" :disabled="currentPage === 1">Previous</button>
@@ -79,5 +86,6 @@ export default defineComponent({
       <button @click="paginate(currentPage + 1)" :disabled="currentPage === Math.ceil(filterHeroes().length / heroesPerPage)">Next</button>
       <button @click="paginate(Math.ceil(filterHeroes().length / heroesPerPage))" :disabled="currentPage === Math.ceil(filterHeroes().length / heroesPerPage)">Last</button>
     </div>
+
   </div>
 </template>
