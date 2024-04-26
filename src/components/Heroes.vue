@@ -40,7 +40,7 @@ export default defineComponent({
 
       this.heroes = data.heroes.map((hero: any) => ({
         id: hero.id,
-        name: hero.name, 
+        name: hero.name,
         name_loc: hero.localized_name,
         name_english_loc: hero.name,
         primary_attr: 0,
@@ -48,7 +48,7 @@ export default defineComponent({
         image: hero.url_full_portrait,
         attribute_img: "",
       }));
-      console.log(data)
+      console.log(data);
       this.isLoading = false;
     } catch (error) {
       console.error(error);
@@ -81,8 +81,8 @@ export default defineComponent({
 
 <template>
   <div>
-    <h1>Dota 2 Heroes</h1>
-    <input v-model="searchQuery" placeholder="Search by name or name_loc" />
+    <h1>Daftar Pahlawan Pertahanan Orang Masa Lampau 2</h1>
+    <input v-model="searchQuery" placeholder="Search by name" class="w-1/4 mt-2 p-2 border rounded-lg" />
 
     <ul v-if="!isLoading">
       <div class="grid grid-cols-4 gap-4 my-4">
@@ -97,7 +97,7 @@ export default defineComponent({
 
     <div v-else>Loading...</div>
 
-    <div>
+    <div class="grid grid-rows-1 grid-flow-col gap-4">
       <button @click="paginate(1)" :disabled="currentPage === 1">First</button>
       <button @click="paginate(currentPage - 1)" :disabled="currentPage === 1">Previous</button>
       <span>{{ currentPage }} of {{ Math.ceil(filterHeroes().length / heroesPerPage) }}</span>
