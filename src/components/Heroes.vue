@@ -12,6 +12,7 @@ export interface Hero {
   complexity: number;
   image: string;
   attribute_img: string;
+  
 }
 
 // Define Component
@@ -24,12 +25,6 @@ export default defineComponent({
       currentPage: 1,
       heroesPerPage: 8,
       isLoading: true,
-      localized_name: "",
-      url_full_portrait: "",
-      name: "",
-      url_small_portrait: "",
-      url_large_portrait: "",
-      url_vertical_portrait: "",
       id: 1,
     };
   },
