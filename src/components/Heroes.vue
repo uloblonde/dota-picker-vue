@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import heroess from "../assets/heroes.json";
 
 // Declare Data Types
 export interface Hero {
@@ -23,22 +24,35 @@ export default defineComponent({
       currentPage: 1,
       heroesPerPage: 8,
       isLoading: true,
+      localized_name: "",
+      url_full_portrait: "",
+      name: "",
+      url_small_portrait: "",
+      url_large_portrait: "",
+      url_vertical_portrait: "",
+      id: 1,
     };
   },
   // Fetch Data
   async created() {
     try {
-      const response = await fetch("https://dota2-heroes.p.rapidapi.com/heroes/english", {
-        method: "GET",
-        headers: {
-          "X-RapidAPI-Key": "80c2bbaeebmshced4f2f640a3757p10570bjsnb5826b580528",
-          "X-RapidAPI-Host": "dota2-heroes.p.rapidapi.com",
-        },
-      });
-      this.heroes = await response.json();
+      const data = heroess;
+
+      this.heroes = data.heroes.map((hero: any) => ({
+        id: hero.id,
+        name: hero.name, 
+        name_loc: hero.localized_name,
+        name_english_loc: hero.name,
+        primary_attr: 0,
+        complexity: 0,
+        image: hero.url_full_portrait,
+        attribute_img: "",
+      }));
+      console.log(data)
       this.isLoading = false;
     } catch (error) {
       console.error(error);
+      this.isLoading = false;
     }
   },
   // Pagination
