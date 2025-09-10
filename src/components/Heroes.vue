@@ -43,7 +43,6 @@ export default defineComponent({
         image: hero.url_full_portrait,
         attribute_img: "",
       }));
-      console.log(data);
       this.isLoading = false;
     } catch (error) {
       console.error(error);
